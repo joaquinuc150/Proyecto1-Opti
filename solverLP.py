@@ -87,7 +87,7 @@ else:
     signo_demanda = ' = '
 
 
-const = "st\n"
+const = ""
 for i in range(plantas):
     for j in range(centros):
         const += "x"+str(i+1)+"_"+str(j+1)
@@ -108,27 +108,29 @@ for j in range(centros):
             const += signo_demanda
     const += str(centros_demandas[j])+';\n'
 
-const += '\n'
-
+enteros = 'int '
 for i in range(plantas):
     for j in range(centros):
-        if i != plantas-1:
-            const += "x"+str(i+1)+"_"+str(j+1)+' >= 0;\n'
-        elif j != centros-1:
-            const += "x"+str(i+1)+"_"+str(j+1)+' >= 0;\n'
+        if i != (plantas-1):
+            enteros += "x"+str(i+1)+"_"+str(j+1)+", "
+        elif j != (centros-1):
+            enteros += "x"+str(i+1)+"_"+str(j+1)+", "
         else:
-            const += "x"+str(i+1)+"_"+str(j+1)+' >= 0;'
-#print(const)
+            enteros += "x"+str(i+1)+"_"+str(j+1)+';'
 
 if caso == 1:
     solver = open("not_balanced_instances/"+str(caso_desbalanceado)+"/modeloLP_"+str(plantas)+"_"+str(centros)+"_"+str(caso_desbalanceado)+"_"+factible+".lp","w")
     solver.write(fo)
     solver.write("\n")
     solver.write(const)
+    solver.write("\n")
+    solver.write(enteros)
     solver.close()
 elif caso == 0:
     solver = open("balanced_instances/modeloLP_"+str(plantas)+"_"+str(centros)+"_"+factible+".lp","w")
     solver.write(fo)
     solver.write("\n")
     solver.write(const)
+    solver.write("\n")
+    solver.write(enteros)
     solver.close()
